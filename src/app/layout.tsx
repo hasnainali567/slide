@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css"; // Ensure your Tailwind styles are imported here
 import { Metadata } from "next";
+import { Query, QueryClient } from "@tanstack/react-query";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -12,7 +13,8 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "Slide",
-  description: "Aomate DMs and Comments on INSTAGRAM"}
+  description: "Aomate DMs and Comments on INSTAGRAM",
+};
 
 export default function RootLayout({
   children,

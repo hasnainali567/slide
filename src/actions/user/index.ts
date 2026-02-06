@@ -4,8 +4,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { createUser, findUser } from "./queries";
 import { refreshToken } from "@/lib/fetch";
-import { updateIntegration } from "./integrations/queries";
-import { stat } from "fs";
+import { updateIntegration } from "../integrations/queries";
 
 export const onCurrentUser = async () => {
   const user = await currentUser();
@@ -26,8 +25,6 @@ export const onBoard = async () => {
         const days_left = Math.ceil(time_left! / (1000 * 3600 * 24));
         if (days_left < 5) {
           console.log("refresh");
-          return redirect("/pricing");
-
           const refresh = await refreshToken(found.integrations[0].token);
 
           const today = new Date();
@@ -60,9 +57,23 @@ export const onBoard = async () => {
       user.emailAddresses[0].emailAddress,
     );
 
-    return{ status: 200, data : created }
+    return { status: 200, data: created };
   } catch (error) {
     console.log(error);
+    return { status: 500, error: "Internal Server Error" };
+  }
+};
+
+export const onUserInfo = async () => {
+  const user = await onCurrentUser();
+  try {
+    const profile = await findUser(user.id);
+    if (profile) {
+      return { status: 200, data: profile };
+    }
+
+    return { status: 404, error: "User not found" };
+  } catch (error) {
     return { status: 500, error: "Internal Server Error" };
   }
 };
