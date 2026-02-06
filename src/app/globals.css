@@ -1,5 +1,6 @@
 /* 1. Imports at the very top */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Climate+Crisis:YEAR@1979&family=Stalinist+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Stalinist+One&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -7,9 +8,10 @@
 
 /* 2. Theme Configuration (The new tailwind.config.js) */
 @theme {
-  /* Fonts - Maps font-sans and font-display */
+  /* Fonts - Maps font-sans and   */
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", sans-serif;
+  -- : "Space Grotesk", sans-serif;
+  --font-logo: "Climate Crisis", sans-serif;
 
   /* Colors - Use the CSS variables defined in the @layer base below */
   --color-border: hsl(var(--border));
@@ -61,16 +63,33 @@
 
   /* Animations */
   @keyframes logo-spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
   }
+
   @keyframes accordion-down {
-    from { height: 0; }
-    to { height: var(--radix-accordion-content-height); }
+    from {
+      height: 0;
+    }
+
+    to {
+      height: var(--radix-accordion-content-height);
+    }
   }
+
   @keyframes accordion-up {
-    from { height: var(--radix-accordion-content-height); }
-    to { height: 0; }
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+
+    to {
+      height: 0;
+    }
   }
 
   --animate-logo-spin: logo-spin infinite 20s linear;
@@ -155,12 +174,12 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
-  }
+
+  
   /* Your root logo CSS */
   #root {
     max-width: 1280px;
@@ -168,12 +187,14 @@
     padding: 2rem;
     text-align: center;
   }
+
   .logo {
     height: 6em;
     padding: 1.5em;
     will-change: filter;
     transition: filter 300ms;
   }
+
   .logo:hover {
     filter: drop-shadow(0 0 2em #646cffaa);
   }
@@ -181,12 +202,24 @@
 
 /* 5. Custom Utilities */
 @layer utilities {
+
+  .gradient-border {
+    @apply border-2 border-transparent rounded-lg;
+    background-image: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-end))), linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)));
+  }
+  
+
   .gradient-text {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)));
   }
+
   .gradient-bg {
     background-image: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)));
+  }
+
+  .radial-gradient-bg {
+    background-image: radial-gradient(circle at center, hsl(var(--gradient-start)), hsl(var(--gradient-end)));
   }
 }
 
@@ -304,6 +337,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
