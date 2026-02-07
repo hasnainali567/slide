@@ -61,7 +61,7 @@ const AutomationList = (props: Props) => {
 
   return (
     <div className='flex flex-col gap-y-3'>
-      {optimisticUiData?.data.map((automation) => (
+      {optimisticUiData?.data.map((automation : {id: string, name: string, createdAt: Date, keywords?: string[], listener?: {listener: string}}) => (
         <Link
           key={automation.id}
           href={`${pathname}/${automation.id}`}
