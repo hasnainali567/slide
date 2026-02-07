@@ -40,7 +40,7 @@ model Automation {
   id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   User      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String?   @db.Uuid
-  name      String
+  name      String?   @default("Untitled")
   createdAt DateTime  @default(now())
   active    Boolean   @default(false)
   dms       Dms[]
