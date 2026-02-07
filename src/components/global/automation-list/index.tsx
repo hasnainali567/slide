@@ -74,7 +74,7 @@ const AutomationList = (props: Props) => {
             <p className='text-[#9b9ca0] text-sm font-light mb-2'>
               This is from the comment
             </p>
-            {automation.keywords?.length > 0 ? (
+            {automation?.keywords && automation?.keywords.length > 0 ? (
               <div className='flex gap-x-2 flex-wrap mt-3'>
                 <div
                   className={cn(
