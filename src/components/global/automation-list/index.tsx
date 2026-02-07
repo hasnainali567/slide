@@ -36,7 +36,7 @@ const AutomationList = (props: Props) => {
 
       // Check if this ID already exists in the real data (to prevent duplicates)
       const existsInRealData = data.data.some(
-        (item) => item.id === optimisticItem.id,
+        (item : {id : string}) => item.id === optimisticItem.id,
       );
 
       if (!existsInRealData) {
