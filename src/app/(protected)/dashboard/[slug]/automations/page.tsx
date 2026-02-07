@@ -1,11 +1,12 @@
-import AutomationList from '@/components/global/automation-list'
-import CreateAutomationButton from '@/components/global/create-automation-button'
+import AutomationList from '@/components/global/automation-list' 
+import CreateAutomation from '@/components/global/create-aotumation'
 import { Check } from 'lucide-react'
 import React from 'react'
 
 type Props = {}
 
 const Page = (props: Props) => {
+    
   return (
     <div className='flex flex-col lg:flex-row gap-5'>
         <div className='flex-1'>
@@ -35,7 +36,7 @@ const Page = (props: Props) => {
                         </div>
                     ))}
                 </div>
-                <CreateAutomationButton />
+                <CreateAutomation />
             </div>
         </div>
     </div>
