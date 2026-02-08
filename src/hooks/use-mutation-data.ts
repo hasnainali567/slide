@@ -19,8 +19,6 @@ export const useMutationData = (
     mutationFn,
     onSuccess: (data) => {
       if (onSuccess) onSuccess();
-      console.log('data' ,data);
-      
       return toast(data?.status === 200 ? "Success" : "Error", {
         description: data?.message,
       });
@@ -37,7 +35,7 @@ export const useMutationDataState = (mutationKey: MutationKey) => {
     filters: { mutationKey },
     select: (mutation) => {
       return {
-        variables: mutation.state.variables as any,
+        variables: mutation.state.variables,
         status: mutation.state.status,
       };
     },
