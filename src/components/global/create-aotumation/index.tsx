@@ -9,8 +9,10 @@ const CreateAutomation = () => {
   const { mutate, isPending } = useCreateAutomation();
   
   const handleClick = () => {
-    const newId = uuid(); // Generate fresh UUID on each click
-    mutate({ name: "Untitled", id: newId, createdAt: new Date() });
+    const newId = uuid();
+    console.log('newId', newId);
+    
+    mutate({ name: "Untitled", id: newId, createdAt: new Date(), active : false, userId: '', keywords : [], listener : {listener : ''} });
   };
   return (
     <Button
