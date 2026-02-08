@@ -6,14 +6,11 @@ import Link from "next/link";
 import GradientButton from "../gradient-button";
 import { Button } from "@/components/ui/button";
 import { useQueryAutomations } from "@/hooks/use-query";
-import CreateAutomationButton from "../create-automation-button";
 import CreateAutomation from "../create-aotumation";
 import { useMutationDataState } from "@/hooks/use-mutation-data";
 import { useMemo } from "react";
 
-type Props = {};
-
-const AutomationList = (props: Props) => {
+const AutomationList = () => {
   const { data } = useQueryAutomations();
   const { pathname } = usePath();
 
@@ -35,7 +32,7 @@ const AutomationList = (props: Props) => {
       };
 
       // Check if this ID already exists in the real data (to prevent duplicates)
-      const existsInRealData = data.data.some(
+      const existsInRealData = Array.isArray(data?.data) && data?.data?.some(
         (item : {id : string}) => item.id === optimisticItem.id,
       );
 
@@ -61,7 +58,7 @@ const AutomationList = (props: Props) => {
 
   return (
     <div className='flex flex-col gap-y-3'>
-      {optimisticUiData?.data.map((automation : {id: string, name: string, createdAt: Date, keywords?: string[], listener?: {listener: string}}) => (
+      {Array.isArray(optimisticUiData?.data) && optimisticUiData.data.map((automation : {id: string, name: string, createdAt: Date, keywords?: string[], listener?: {listener: string}}) => (
         <Link
           key={automation.id}
           href={`${pathname}/${automation.id}`}
