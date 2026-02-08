@@ -4,11 +4,8 @@ import { Button } from "@/components/ui/button";
 import Loader from "../loader";
 import { Workflow } from "lucide-react";
 import { useCreateAutomation } from "@/hooks/use-automation";
-import { useMemo } from "react";
 
-type Props = {};
-
-const CreateAutomation = (props: Props) => {
+const CreateAutomation = () => {
   const { mutate, isPending } = useCreateAutomation();
   
   const handleClick = () => {
