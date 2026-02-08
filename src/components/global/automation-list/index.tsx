@@ -25,7 +25,6 @@ const AutomationList = () => {
   const { pathname } = usePath();
 
   const { latestVariables } = useMutationDataState(["create-automation"]);
-  console.log(latestVariables);
 
   const optimisticUiData = useMemo(() => {
      const serverData = Array.isArray(data?.data) ? data.data : [];
@@ -39,10 +38,7 @@ const AutomationList = () => {
     }
     return serverData;
   }, [data, latestVariables]);
-
-  console.log("data => ", data);
-  console.log("latestVariables => ", latestVariables);
-
+  
   if (
     data?.status !== 200 ||
     !optimisticUiData ||
