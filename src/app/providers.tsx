@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { useState } from "react";
+import ReduxProvider from "@/redux";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   // We use useState to ensure QueryClient is only created once on the client

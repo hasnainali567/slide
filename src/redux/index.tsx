@@ -1,8 +1,10 @@
 import React from 'react'
 
-type Props = {}
+type Props = {
+  children : React.ReactNode
+}
 
-const ReduxProvider = (props: Props) => {
+const ReduxProvider = ({children}: Props) => {
   return (
     <div>ReduxProvider</div>
   )
