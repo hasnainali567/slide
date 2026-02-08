@@ -17,26 +17,29 @@ export const onBoard = async () => {
   try {
     const found = await findUser(user.id);
     if (found) {
-      if (found.integrations.length > 0) {
-        const today = new Date();
-        const time_left =
-          found.integrations[0].expiresAt?.getTime() - today.getTime();
-
-        const days_left = Math.ceil(time_left! / (1000 * 3600 * 24));
-        if (days_left < 5) {
-          console.log("refresh");
-          const refresh = await refreshToken(found.integrations[0].token);
-
+      if (found.integrations && found.integrations.length > 0) {
+        const integration = found.integrations[0];
+        if (integration.expiresAt && integration.token) {
           const today = new Date();
-          const expire_date = today.setDate(today.getDate() + 60);
-          const update_token = await updateIntegration(
-            refresh.access_token,
-            new Date(expire_date),
-            found.integrations[0].id,
-          );
+          const time_left =
+            integration.expiresAt.getTime() - today.getTime();
 
-          if (!update_token) {
-            console.log("update token failed");
+          const days_left = Math.ceil(time_left! / (1000 * 3600 * 24));
+          if (days_left < 5) {
+            console.log("refresh");
+            const refresh = await refreshToken(integration.token);
+
+            const today = new Date();
+            const expire_date = today.setDate(today.getDate() + 60);
+            const update_token = await updateIntegration(
+              refresh.access_token,
+              new Date(expire_date),
+              integration.id,
+            );
+
+            if (!update_token) {
+              console.log("update token failed");
+            }
           }
         }
       }
@@ -74,6 +77,7 @@ export const onUserInfo = async () => {
 
     return { status: 404, error: "User not found" };
   } catch (error) {
+    console.log(error);
     return { status: 500, error: "Internal Server Error" };
   }
 };
