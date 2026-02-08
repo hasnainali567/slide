@@ -1,10 +1,10 @@
 import { useMutationData } from "./use-mutation-data"
 import { createAutomations } from "@/actions/automations"
 
-export const useCreateAutomation = (id? : string) => {
+export const useCreateAutomation = () => {
     const {mutate, isPending} = useMutationData(
         ["create-automation"],
-        () => createAutomations(id),
+        (data: { id: string, }) => createAutomations(data.id),
         'user-automations'
     )
 
