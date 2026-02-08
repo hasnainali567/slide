@@ -3,9 +3,8 @@ import CreateAutomation from '@/components/global/create-aotumation'
 import { Check } from 'lucide-react'
 import React from 'react'
 
-type Props = {}
 
-const Page = (props: Props) => {
+const Page = () => {
     
   return (
     <div className='flex flex-col lg:flex-row gap-5'>
