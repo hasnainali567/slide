@@ -2,14 +2,15 @@ import React from "react";
 
 type Props = {
   color?: string;
+  size?: number;
 };
 
-const Spinner = ({ color }: Props) => {
+const Spinner = ({ color, size }: Props) => {
   return (
     <div role='status'>
       <svg
         aria-hidden='true'
-        className='w-8 h-8 text-gray-200 animate-spin fill-blue-600'
+        className={`w-${size || 8} h-${size || 8} text-gray-200 animate-spin fill-blue-600`}
         viewBox='0 0 100 101'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'

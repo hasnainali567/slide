@@ -7,11 +7,11 @@ import React from 'react'
 const Page = () => {
     
   return (
-    <div className='flex flex-col lg:flex-row gap-5'>
-        <div className='flex-1'>
+    <div className='grid grid-cols-1 lg:grid-cols-6 gap-5'>
+        <div className='lg:col-span-4'>
             <AutomationList />
         </div>
-        <div className='w-1/3'>
+        <div className='lg:col-span-2'>
             <div className='flex flex-col rounded-xl bg-[#15171D] gap-y-6 p-5 border overflow-hidden border-[#484B4F]'>
                 <div className='mb-3'>
                     <h2 className='text-xl font-semibold'>Automations</h2>

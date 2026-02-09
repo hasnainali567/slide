@@ -7,12 +7,13 @@ type Props = {
   className?: string;
   children: React.ReactNode;
   color?: string;
+  size?: number;
 };
 
-const Loader = ({ state, className, children, color }: Props) => {
+const Loader = ({ state, className, children, color, size }: Props) => {
   return state ? (
     <div className={cn(className)}>
-      <Spinner color={color} />
+      <Spinner color={color} size={size} />
     </div>
   ) : (
     children

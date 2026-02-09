@@ -1,5 +1,6 @@
 import { getAutomationInfo } from "@/actions/automations";
 import AutomationBreadCrumb from "@/components/global/automation-breadcrumbs";
+import ThenNode from "@/components/global/automations/then/node";
 import Trigger from "@/components/global/automations/trigger";
 import { PrefetchUserAutomation } from "@/react-query/prefetch";
 import {
@@ -41,6 +42,7 @@ const Page = async ({ params }: Props) => {
           </div>
           <Trigger id={id} />
         </div>
+          <ThenNode id={id} />
       </div>
     </HydrationBoundary>
   );
