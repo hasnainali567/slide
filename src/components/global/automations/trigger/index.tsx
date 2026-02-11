@@ -5,11 +5,12 @@ import { Separator } from "@/components/ui/separator";
 import ThenAction from "../then/then-action";
 import TriggerButton from "../trigger-button";
 import { AUTOMATION_TRIGGERS } from "@/constant/automations";
-import { useTrigger } from "@/hooks/use-automation";
+import { useKeywords, useTrigger } from "@/hooks/use-automation";
 import { cn } from "@/lib/utils";
 import Keywords from "./keywords";
 import { Button } from "@/components/ui/button";
-import Loader  from "@/components/global/loader";
+import Loader from "@/components/global/loader";
+import { useMutationDataState } from "@/hooks/use-mutation-data";
 
 type Props = {
   id: string;
@@ -18,6 +19,14 @@ type Props = {
 const Trigger = ({ id }: Props) => {
   const { onSetTrigger, onSaveTrigger, isPending, types } = useTrigger(id);
   const { data } = useQueryAutomation(id);
+  const {
+    deletePending,
+    isPending: keywordPending,
+    deleteMutation,
+    keyword,
+    onKeyPress,
+    onValueChange,
+  } = useKeywords(id);
 
   if (data?.data && data?.data?.trigger?.length > 0) {
     return (
@@ -70,11 +79,28 @@ const Trigger = ({ id }: Props) => {
             <p className='text-[#9b9ca0] text-sm'>{trigger.description}</p>
           </div>
         ))}
-        <Keywords id={id} />
+        <Keywords
+          id={id}
+          data={data}
+          deleteMutation={deleteMutation}
+          isPending={keywordPending}
+          keyword={keyword}
+          onKeyPress={onKeyPress}
+          onValueChange={onValueChange}
+          deletePending={deletePending}
+        />
         <Button
           onClick={onSaveTrigger}
-          disabled={!types || types.length === 0 || isPending}
-        className="gradient-bg font-medium text-white cursor-pointer disabled:cursor-not-allowed disabled:opacity-50">
+          disabled={
+            !types ||
+            types.length === 0 ||
+            isPending ||
+            keywordPending ||
+            deletePending ||
+            data?.data?.keywords?.length === 0
+          }
+          className='gradient-bg font-medium text-white cursor-pointer disabled:cursor-not-allowed disabled:opacity-50'
+        >
           <Loader state={isPending}>Create Trigger</Loader>
         </Button>
       </div>

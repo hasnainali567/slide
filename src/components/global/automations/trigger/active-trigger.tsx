@@ -14,7 +14,7 @@ const ActiveTrigger = ({type, keywords}: Props) => {
   return (
     <div className='bg-[#28292e] p-3 rounded-xl w-full '>
         <div className='flex gap-2 items-center'>
-            {type === 'COMMENT' ? <Instagram color='#F0534D' /> : <SendHorizonal color='#F0534D' />}
+            {type === 'COMMENT' ? <Instagram color='#F0534D' /> : <SendHorizonal fill='#ED4C79' stroke='#28292E' size={32} />}
             <p className='text-lg'>
                 {type === 'COMMENT' ? 'User comments on my post' : 'User sends me a DM'}
             </p>

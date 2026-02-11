@@ -1,5 +1,4 @@
 import { Input } from "@/components/ui/input";
-import { useKeywords } from "@/hooks/use-automation";
 import { useMutationDataState } from "@/hooks/use-mutation-data";
 import { useQueryAutomation } from "@/hooks/use-query";
 import { X } from "lucide-react";
@@ -8,13 +7,18 @@ import Loader from "../../loader";
 
 type Props = {
   id: string;
+  keyword: string;
+  onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  onValueChange: (value: React.ChangeEvent<HTMLInputElement>) => void;
+  deleteMutation: (data: { id: string }) => void;
+  deletePending: boolean;
+  isPending: boolean;
+  data: ReturnType<typeof useQueryAutomation>["data"];
 };
 
-const Keywords = ({ id }: Props) => {
-  const { deleteMutation, keyword, onKeyPress, onValueChange, deletePending } =
-    useKeywords(id);
+const Keywords = ({ id, data, keyword, onKeyPress, onValueChange, deleteMutation, deletePending, isPending }: Props) => {
   const { latestVariables } = useMutationDataState(["add-keyword"]);
-  const { data } = useQueryAutomation(id);
+  const { latestVariables: deleteVariables } = useMutationDataState(["delete-keyword"]);
 
   return (
     <div className='bg-[] flex flex-col gap-y-3 p-3 rounded-xl'>
@@ -26,13 +30,13 @@ const Keywords = ({ id }: Props) => {
           data.data.keywords?.length > 0 &&
           data.data.keywords.map(
             (keyword) =>
-              keyword.id !== latestVariables.variables?.id && (
+              keyword.id !== latestVariables?.variables?.id && (
                 <div
                   key={keyword.id}
                   className='bg-[#15171D] flex items-center gap-x-2 capitalize text-[#8C8F94] py-1 px-4 rounded-full'
                 >
                   <p>{keyword.word}</p>
-                  <Loader state={deletePending} size={4}>
+                  <Loader state={deletePending && deleteVariables?.variables?.id === keyword.id} size={4}>
                     <X
                     size={20}
                     onClick={() => deleteMutation({ id: keyword.id })}
@@ -45,12 +49,15 @@ const Keywords = ({ id }: Props) => {
           {latestVariables && latestVariables.status === "pending" && (
             <div className="bg-[#15171D] flex items-center gap-x-2 capitalize text-[#8C8F94] py-1 px-4 rounded-full" >
                 {latestVariables.variables?.word}
+                <Loader state={isPending} size={4}>
+                  <></>
+                </Loader>
             </div>
           )}
 
           <Input placeholder="Add keywords" 
           style={{
-            width: Math.min(Math.max(keyword.length || 12, 2), 50) + 'ch',
+            width: Math.max(Math.max((keyword.length || 12) * 0.7 + 1, 2), 50) + 'ch',
           }}
           value={keyword}
           onChange={onValueChange}
@@ -62,3 +69,4 @@ const Keywords = ({ id }: Props) => {
 };
 
 export default Keywords;
+
