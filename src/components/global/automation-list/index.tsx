@@ -46,7 +46,7 @@ const AutomationList = () => {
   ) {
     return (
       <div
-        className='h-[70vh] flex justify-center items-center
+        className='h-[50vh] flex justify-center items-center
      flex-col gap-y-3'
       >
         <h3 className='text-lg text-gray-300'>No Automations</h3>

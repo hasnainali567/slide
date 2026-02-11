@@ -1,6 +1,6 @@
 "use client";
 import { Check, ChevronRight, PencilIcon } from "lucide-react";
-import React from "react";
+import Loader  from '@/components/global/loader'
 import ActivateAutomationButton from "../activate-automation-button";
 import { useQueryAutomation } from "@/hooks/use-query";
 import { useEditAutomation } from "@/hooks/use-automation";
@@ -48,12 +48,14 @@ const AutomationBreadCrumb = ({ id }: Props) => {
               <Check size={14} />
             </span>
           ) : (
-            <span
-              onClick={enableEdit}
-              className='cursor-pointer hover:opacity-75 duration-100 transition shrink-0 mr-4'
-            >
-              <PencilIcon size={14} />
-            </span>
+            <Loader state={isPending} size={4} color='#9b9ca0'>
+              <span
+                onClick={enableEdit}
+                className='cursor-pointer hover:opacity-75 duration-100 transition shrink-0 mr-4'
+              >
+                <PencilIcon size={14} />
+              </span>
+            </Loader>
           )}
         </span>
       </div>
@@ -63,12 +65,12 @@ const AutomationBreadCrumb = ({ id }: Props) => {
         </p>
         <div className='flex gap-x-5'>
           <p className='text-sm text-[#9b9ca0] truncate min-w-0'>
-            Chages saved
+            Changes saved
           </p>
         </div>
       </div>
       <div>
-        <ActivateAutomationButton />
+        <ActivateAutomationButton id={id} />
       </div>
     </div>
   );
