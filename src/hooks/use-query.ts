@@ -1,4 +1,5 @@
-import { getAllAutomations, getAutomationInfo } from "@/actions/automations"
+'use client'
+import { getAllAutomations, getAutomationInfo, getProfilePosts } from "@/actions/automations"
 import { onUserInfo } from "@/actions/user"
 import { useQuery } from "@tanstack/react-query"
 
@@ -20,5 +21,16 @@ export const useQueryUser = () => {
     return useQuery({
         queryKey: ["user-profile"],
         queryFn: onUserInfo
+    })
+}
+
+export const useQueryAutomationPosts = () => {
+    const fetchPosts = async () => {
+        return await getProfilePosts();
+    }
+
+    return useQuery({
+        queryKey: ['instagram-media'],
+        queryFn: fetchPosts,
     })
 }

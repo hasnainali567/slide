@@ -5,6 +5,7 @@ import {
   deleteKeyword,
   saveKeyword,
   saveListener,
+  savePosts,
   saveTrigger,
   updateAutomationName,
 } from "@/actions/automations";
@@ -129,7 +130,7 @@ export const useKeywords = (id: string) => {
   const onValueChange = (value: React.ChangeEvent<HTMLInputElement>) =>
     setKeyword(value.target.value);
 
-  const { mutate } = useMutationData(
+  const { mutate, isPending } = useMutationData(
     ["add-keyword"],
     (data: { word: string }) => saveKeyword(id, data.word),
     "automation-info",
@@ -138,22 +139,63 @@ export const useKeywords = (id: string) => {
   const onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && keyword.trim() !== "") {
       // save keyword to db
-      mutate({ word : keyword });
+      mutate({ word: keyword });
       setKeyword("");
     }
   };
 
-  const {mutate : deleteMutation, isPending : deletePending} = useMutationData(
-    ['delete-keyword'],
+  const { mutate: deleteMutation, isPending: deletePending } = useMutationData(
+    ["delete-keyword"],
     (data: { id: string }) => deleteKeyword(id, data.id),
-    'automation-info',
-  )
+    "automation-info",
+  );
 
   return {
     keyword,
     onValueChange,
     onKeyPress,
     deleteMutation,
-    deletePending
-  }
+    deletePending,
+    isPending,
+  };
+};
+
+export const useAutomationPost = (id: string) => {
+  const [posts, setPosts] = useState<
+    {
+      postId: string;
+      caption?: string;
+      media: string;
+      mediaType: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
+    }[]
+  >([]);
+
+  const onSelectPost = (post: {
+    postId: string;
+    caption?: string;
+    media: string;
+    mediaType: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
+  }) => {
+    setPosts((prev) => {
+      if (prev.find((p) => p.postId === post.postId)) {
+        return prev.filter((p) => p.postId !== post.postId);
+      } else {
+        return [...prev, post];
+      }
+    });
+  };
+
+  const { mutate, isPending } = useMutationData(
+    ["attach-posts"],
+    (data: { posts: typeof posts }) => savePosts(id, data.posts || []),
+    "automation-info",
+    () => setPosts([]),
+  );
+
+  return {
+    posts,
+    onSelectPost,
+    isPending,
+    mutate,
+  };
 };

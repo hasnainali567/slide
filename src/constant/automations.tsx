@@ -1,4 +1,4 @@
-import { Instagram, SendHorizonal } from "lucide-react";
+import {  BotMessageSquare, Instagram, SendHorizonal } from "lucide-react";
 import { JSX } from "react";
 import { v4 } from "uuid";
 
@@ -29,7 +29,7 @@ export const AUTOMATION_LISTENERS: AUTOMATION_LISTENERS_PROPS[] = [
   {
     id: v4(),
     lable: "Let Smart AI take over",
-    icon: <SendHorizonal />,
+    icon: <BotMessageSquare />,
     description: "Tell Ai about your project. (Upgrade to use this feature)",
     type: "SMARTAI",
   },
