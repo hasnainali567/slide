@@ -4,6 +4,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import {
   addKeyword,
   addListener,
+  addPost,
   addTrigger,
   createAutomation,
   findAutomationById,
@@ -12,6 +13,8 @@ import {
   updateAutomation,
 } from "./query";
 import { onCurrentUser } from "../user";
+import { findUser } from "../user/queries";
+import { on } from "events";
 
 export const createAutomations = async (id?: string) => {
   const user = await currentUser();
@@ -141,5 +144,55 @@ export const deleteKeyword = async (automationId: string, keyword: string) => {
   }
 };
 
+export const getProfilePosts = async () => {
+  const user = await onCurrentUser();
+  try {
+    const profile = await findUser(user.id);
+    const posts = await fetch(
+      `${process.env.INSTAGRAM_BASE_URL}/me/media?fields=id,caption,media_url,media_type,timestamp&limit=10&access_token=${profile?.integrations[0].token}`,
+    );
+    const data = await posts.json();
+    if (data) {
+      return { status: 200, data };
+    }
+    console.log('😡 Error in getting profile posts')
+    return { status: 404}
+  } catch (error) {
+    console.log("error from getProfilePosts", error);
+    return { status: 500 };
+  }
+};
 
 
+export const savePosts = async (automationId: string, posts : {
+  postId: string;
+  caption?: string;
+  media: string;
+  mediaType: 'IMAGE' | 'VIDEO' | 'CAROUSEL_ALBUM';
+}[]) => {
+  await onCurrentUser();
+  try {
+    const create = await addPost(automationId, posts);
+    if (create) {
+      return { status: 200, data: "Posts attached" };
+    }
+    return { status: 404, data: "Automation not found" };
+  } catch (error) {
+    console.log("error from savePosts", error);
+    return { status: 500, data: "Internal Server Error" };
+  }
+}
+
+export const activateAutomation = async (id: string, state: boolean) => {
+  await onCurrentUser();
+  try {
+    const update = await updateAutomation(id, { active: state });
+    if (update) {
+      return { status: 200, data: `Automation ${state ? "activated" : "deactivated"}` };
+    }
+    return { status: 404, data: "Automation not found" };
+  } catch (error) {
+    console.log("error from activateAutomation", error);
+    return { status: 500, data: "Internal Server Error" };
+  }
+}

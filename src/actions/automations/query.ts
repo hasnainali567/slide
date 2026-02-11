@@ -128,3 +128,21 @@ export const removeKeyword = async (automationId: string, keywordId: string) => 
     },
   });
 }
+
+export const addPost = async (automationId: string, posts :{
+  postId: string;  media: string;
+  caption?: string;
+  mediaType: 'IMAGE' | 'VIDEO' | 'CAROUSEL_ALBUM';
+}[]) => {
+  return await client.automation.update({
+    where: { id: automationId },
+    data: {
+      posts: {
+        createMany: {
+          data: posts,
+        },
+      },
+    },
+  });
+}
+

@@ -2,9 +2,11 @@
 
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { createUser, findUser } from "./queries";
+import { createUser, findUser, updateSubsription } from "./queries";
 import { refreshToken } from "@/lib/fetch";
 import { updateIntegration } from "../integrations/queries";
+import Stripe from "stripe";
+import { stripe } from "@/app/(protected)/api/payment/route";
 
 export const onCurrentUser = async () => {
   const user = await currentUser();
@@ -21,8 +23,7 @@ export const onBoard = async () => {
         const integration = found.integrations[0];
         if (integration.expiresAt && integration.token) {
           const today = new Date();
-          const time_left =
-            integration.expiresAt.getTime() - today.getTime();
+          const time_left = integration.expiresAt.getTime() - today.getTime();
 
           const days_left = Math.ceil(time_left! / (1000 * 3600 * 24));
           if (days_left < 5) {
@@ -79,5 +80,25 @@ export const onUserInfo = async () => {
   } catch (error) {
     console.log(error);
     return { status: 500, error: "Internal Server Error" };
+  }
+};
+
+export const onSubscribe = async (session_id: string) => {
+  const user = await onCurrentUser();
+  try {
+    const session = await stripe.checkout.sessions.retrieve(session_id);
+    if (session && session.subscription) {
+      const subscribed = await updateSubsription(user.id, {
+        customerId: session.customer as string,
+        plan: "PRO",
+      });
+      if (subscribed) {
+        return { status: 200, data: "Subscription updated successfully" };
+      }
+      return { status: 401 };
+    }
+  } catch (error) {
+    console.log("error from onSubscribe", error);
+    return { status: 500};
   }
 };
