@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
               webhook_payload.entry[0].id,
               webhook_payload.entry[0].messaging[0].sender.id,
               automation.listener.prompt,
-              automation.User?.integrations[0].token!,
+              automation.User?.integrations[0].token ?? '',
             );
 
             if (direct_message.status === 200) {
