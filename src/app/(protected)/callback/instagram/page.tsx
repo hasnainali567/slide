@@ -1,0 +1,22 @@
+import { onIntegrate } from "@/actions/integrations";
+import { redirect } from "next/navigation";
+import React from "react";
+
+type Props = {
+  searchParams: Promise<{ code: string }>;
+};
+
+const Page = async ({ searchParams }: Props) => {
+  const { code } = await searchParams;
+  if (code) {
+    console.log(code);
+    const user = await onIntegrate(code.split('#_')[0]);
+    if(user.status === 200) { 
+      return redirect(`/dashboard/${user.data?.firstname?.toLocaleLowerCase()}${user.data?.lastname?.toLocaleLowerCase()}/integrations`);
+    }
+  }
+
+    return redirect('sign-up')
+};
+
+export default Page;

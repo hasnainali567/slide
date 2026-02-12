@@ -72,3 +72,51 @@ export const trackResponses = async (
     });
   }
 };
+
+export const createChatHistory = (
+  automationId: string,
+  sender: string,
+  reciever: string,
+  message: string,
+) => {
+  return client.automation.update({
+    where: {
+      id: automationId,
+    },
+    data: {
+      dms: {
+        create: {
+          reciever,
+          senderId: sender,
+          message,
+        },
+      },
+    },
+  });
+};
+
+export const getChatHistory = async (receiver: string, sender: string) => {
+  return await client.dms.findMany({
+    where: {
+      OR: [
+        { senderId: sender, reciever: receiver },
+        { senderId: receiver, reciever: sender },
+      ],
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+    take: 5
+  });
+};
+
+export const getKeywordPost = async (automationId: string, postId: string) => {
+  return await client.post.findFirst({
+    where: {
+      AND: [{ postId }, { automationId }],
+    },
+    select: {
+      automationId: true,
+    },
+  });
+};
