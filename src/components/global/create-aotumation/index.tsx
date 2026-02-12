@@ -12,7 +12,7 @@ const CreateAutomation = () => {
     const newId = uuid();
     console.log('newId', newId);
     
-    mutate({ name: "Untitled", id: newId, createdAt: new Date(), active : false, userId: '', keywords : [], listener : {listener : ''} });
+    mutate({ id: newId });
   };
   return (
     <Button
