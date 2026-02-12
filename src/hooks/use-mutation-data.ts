@@ -7,9 +7,9 @@ import {
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-export const useMutationData = (
+export const useMutationData = <TData extends { status: number; message?: string } = { status: number; message?: string }, TVariables = unknown,>(
   mutationKey: MutationKey,
-  mutationFn: MutationFunction<any, any>,
+  mutationFn: MutationFunction<TData, TVariables>,
   queryKey?: string,
   onSuccess?: () => void,
 ) => {
@@ -30,12 +30,12 @@ export const useMutationData = (
   return { mutate, isPending };
 };
 
-export const useMutationDataState = (mutationKey: MutationKey) => {
+export const useMutationDataState = <T = unknown,>(mutationKey: MutationKey) => {
   const data = useMutationState({
     filters: { mutationKey },
     select: (mutation) => {
       return {
-        variables: mutation.state.variables,
+        variables: mutation.state.variables as T,
         status: mutation.state.status,
       };
     },
