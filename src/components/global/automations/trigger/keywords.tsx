@@ -16,9 +16,9 @@ type Props = {
   data: ReturnType<typeof useQueryAutomation>["data"];
 };
 
-const Keywords = ({ id, data, keyword, onKeyPress, onValueChange, deleteMutation, deletePending, isPending }: Props) => {
-  const { latestVariables } = useMutationDataState(["add-keyword"]);
-  const { latestVariables: deleteVariables } = useMutationDataState(["delete-keyword"]);
+const Keywords = ({ data, keyword, onKeyPress, onValueChange, deleteMutation, deletePending, isPending }: Props) => {
+  const { latestVariables } = useMutationDataState<{ word: string }>(["add-keyword"]);
+  const { latestVariables: deleteVariables } = useMutationDataState<{ id: string }>(["delete-keyword"]);
 
   return (
     <div className='bg-[] flex flex-col gap-y-3 p-3 rounded-xl'>
@@ -30,7 +30,7 @@ const Keywords = ({ id, data, keyword, onKeyPress, onValueChange, deleteMutation
           data.data.keywords?.length > 0 &&
           data.data.keywords.map(
             (keyword) =>
-              keyword.id !== latestVariables?.variables?.id && (
+              keyword.word !== latestVariables?.variables?.word && (
                 <div
                   key={keyword.id}
                   className='bg-[#15171D] flex items-center gap-x-2 capitalize text-[#8C8F94] py-1 px-4 rounded-full'

@@ -42,7 +42,7 @@ export const useEditAutomation = (automationId: string) => {
   );
 
   useEffect(() => {
-    function handleClickOutside(this: Document, event: MouseEvent) {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
         inputRef.current &&
         !inputRef.current.contains(event.target as Node | null)
@@ -51,7 +51,7 @@ export const useEditAutomation = (automationId: string) => {
       } else {
         disableEdit();
       }
-    }
+    };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -74,7 +74,7 @@ export const useListener = (id: string) => {
     reply: z.string(),
   });
 
-  const { mutate, isPending } = useMutationData(
+  const { mutate, isPending } = useMutationData<{ status: number; data: string }, { prompt: string; reply: string }>(
     ["create-listener"],
     (data: { prompt: string; reply: string }) =>
       saveListener(id, listener || "MESSAGE", data.prompt, data.reply),

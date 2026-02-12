@@ -17,7 +17,7 @@ const AutomationBreadCrumb = ({ id }: Props) => {
   const { edit, enableEdit, inputRef, disableEdit, isPending } =
     useEditAutomation(id);
 
-  const { latestVariables } = useMutationDataState(["update-automation"]);
+  const { latestVariables } = useMutationDataState<{ name: string }>(["update-automation"]);
   return (
     <div className='rounded-full w-full p-5 bg-[#18181b1a] flex items-center justify-between'>
       <div className='flex items-center gap-x-3 min-w-0'>
@@ -28,7 +28,7 @@ const AutomationBreadCrumb = ({ id }: Props) => {
             <Input
               disabled={isPending}
               title='Name'
-              placeholder={`${isPending ? latestVariables.variables : "Add a new name"}`}
+              placeholder={`${isPending ? latestVariables?.variables?.name : "Add a new name"}`}
               ref={inputRef}
               defaultValue={data?.data?.name || ""}
               className='bg-transparent h-auto outline-none text-base border-none p-0'
@@ -36,7 +36,7 @@ const AutomationBreadCrumb = ({ id }: Props) => {
             />
           ) : (
             <p className='text-[#9b9ca0] truncate'>
-              {latestVariables?.variables
+              {latestVariables?.variables?.name
                 ? latestVariables.variables?.name
                 : data?.data?.name}
             </p>
