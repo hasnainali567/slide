@@ -28,14 +28,14 @@ const IntegrationCard = ({ description, icon, strategy, title }: Props) => {
       {icon}
       <div className='flex flex-col flex-1'>
         <h3 className='text-xl'>{title}</h3>
-        <p className='text-base w-full md:w-8/12 xl:w-8/12 2xl:w-6/12 text-[#9d9d9d]'>
+        <p className='text-base w-full md:w-8/12 xl:w-8/12 2xl:w-6/12 text-[#9d9d9d] truncate'>
           {description}
         </p>
       </div>
       <Button
         onClick={onInstagramOAuth}
         disabled={integrated?.name === strategy}
-        className='gradient-bg text-white rounded-full text-lg font-medium hover:opacity-70 transition duration-100'
+        className='gradient-bg text-white rounded-full text-lg font-medium hover:opacity-70 transition duration-100 cursor-pointer'
       >
         {integrated ? 'Connected' : 'Connect'}
       </Button>

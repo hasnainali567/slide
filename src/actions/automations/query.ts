@@ -22,7 +22,7 @@ export const getAutomations = async (clerkId: string) => {
     select: {
       automations: {
         orderBy: {
-          createdAt: "asc",
+          createdAt: "desc",
         },
       },
     },
