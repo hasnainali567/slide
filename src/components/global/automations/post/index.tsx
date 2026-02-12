@@ -57,7 +57,7 @@ const PostButton = ({ id }: Props) => {
               );
             })}
           </div>
-          <Button onClick={mutate} disabled={posts.length === 0 || isPending} className="gradient-bg w-full font-medium text-white">
+          <Button onClick={() => mutate({ posts })} disabled={posts.length === 0 || isPending} className="gradient-bg w-full font-medium text-white">
             <Loader state={isPending}>
                 Attach Post
             </Loader>
