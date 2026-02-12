@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
             automation.listener.listener === "SMARTAI" &&
             automation.User?.subscription?.plan === "PRO"
           ) {
-            const smart_ai_message = 'gemini'
+            const smart_ai_message = 'genai'
           }
         }
       }
