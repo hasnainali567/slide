@@ -11,6 +11,7 @@ type Props = {
   id: string;
 };
 
+
 const AutomationBreadCrumb = ({ id }: Props) => {
   const { data } = useQueryAutomation(id);
   const { edit, enableEdit, inputRef, disableEdit, isPending } =
