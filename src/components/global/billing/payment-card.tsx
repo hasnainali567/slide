@@ -7,7 +7,7 @@ import React from "react";
 
 type Props = {
   label: string;
-  current: "PRO" | "FREE";
+  current: string | undefined;
   landing?: boolean;
 };
 
