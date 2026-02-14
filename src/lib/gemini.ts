@@ -1,8 +1,8 @@
-import 'dotenv/config.js';
-
+import 'dotenv/config';
 import { GoogleGenAI } from "@google/genai";
 
 const ai = new GoogleGenAI({
-    apiKey: process.env.GEMINI_KEY,})
+  apiKey: process.env.GEMINI_KEY,
+});
 
 export default ai;
