@@ -59,6 +59,7 @@ const AutomationList = () => {
     <div className='flex flex-col gap-y-3'>
       {optimisticUiData.map(
         (automation: Automation) => (
+
           <Link
             key={automation.id}
             href={`${pathname}/${automation.id}`}
@@ -101,11 +102,20 @@ const AutomationList = () => {
             </div>
             <div className=' flex flex-col justify-between'>
               <p className='capitalize text-sm font-light text-[#9b9ca0]'>
-                {getMonth(automation.createdAt.getUTCMonth() + 1)}{" "}
-                {automation.createdAt.getUTCDate() === 1
-                  ? `${automation.createdAt.getUTCDate()}st`
-                  : `${automation.createdAt.getUTCDate()}th`}{" "}
-                , {automation.createdAt.getUTCFullYear()}
+                {(() => {
+                  const created = new Date(automation.createdAt);
+                  const day = created.getUTCDate();
+                  const suffix = (() => {
+                    if (day % 100 >= 11 && day % 100 <= 13) return 'th';
+                    switch (day % 10) {
+                      case 1: return 'st';
+                      case 2: return 'nd';
+                      case 3: return 'rd';
+                      default: return 'th';
+                    }
+                  })();
+                  return `${getMonth(created.getUTCMonth() + 1)} ${day}${suffix} , ${created.getUTCFullYear()}`;
+                })()}
               </p>
 
               {automation.listener?.listener === "SMARTAI" ? (

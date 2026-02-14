@@ -3,7 +3,6 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css"; // Ensure your Tailwind styles are imported here
 import { Metadata } from "next";
-import { Query, QueryClient } from "@tanstack/react-query";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],

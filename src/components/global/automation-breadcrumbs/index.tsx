@@ -6,6 +6,8 @@ import { useQueryAutomation } from "@/hooks/use-query";
 import { useEditAutomation } from "@/hooks/use-automation";
 import { useMutationDataState } from "@/hooks/use-mutation-data";
 import { Input } from "@/components/ui/input";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 type Props = {
   id: string;
@@ -13,6 +15,9 @@ type Props = {
 
 
 const AutomationBreadCrumb = ({ id }: Props) => {
+  const pathname = usePathname();
+const AutomationBreadCrumb = ({ id }: Props) => {
+  const pathname = usePathname();  
   const { data } = useQueryAutomation(id);
   const { edit, enableEdit, inputRef, disableEdit, isPending } =
     useEditAutomation(id);
@@ -21,7 +26,9 @@ const AutomationBreadCrumb = ({ id }: Props) => {
   return (
     <div className='rounded-full w-full p-5 bg-[#18181b1a] flex items-center justify-between'>
       <div className='flex items-center gap-x-3 min-w-0'>
-        <p className='text-[#9b9ca0] truncate'>Automations</p>
+        <p className='text-[#9b9ca0] truncate'>
+          <Link href={`${pathname?.split("/").slice(0, -1).join("/") || "/"}`}>Automations</Link>
+        </p>
         <ChevronRight color='#9b9ca0' className='shrink-0' />
         <span className='flex gap-x-3 items-center min-w-0'>
           {edit ? (
